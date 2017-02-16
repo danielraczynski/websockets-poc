@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,6 +16,7 @@ import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
@@ -23,6 +25,8 @@ import org.springframework.web.client.RestTemplate;
 public class PoCWebsocketController {
 
 	private final Logger logger = LoggerFactory.getLogger(PoCWebsocketController.class);
+	@Autowired
+	private SimpMessagingTemplate simpMessagingTemplate;
 
 	@MessageMapping("hello")
 	@SendTo("/topic/greetings")
@@ -50,7 +54,8 @@ public class PoCWebsocketController {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		sendToOtherNode(headerAccessor.getSessionId());
+		final String daniel = "/queue/twoajastara";
+		simpMessagingTemplate.convertAndSendToUser(headerAccessor.getSessionId(), daniel, message);
 	}
 
 	private void sendToOtherNode(String dest) {

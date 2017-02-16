@@ -43,7 +43,7 @@ public class PoCHttpController {
 	@RequestMapping("getFromOtherNode")
 	public void getFromOtherNode(@RequestBody PocBackendServiceMessage message) {
 		logger.info("Received message from other node. User: {}", message.getDestination());
-		simpMessagingTemplate.convertAndSendToUser(message.getDestination(), "/queue/personal-message", new PoCReplyMessage(message.getMessage()));
+		simpMessagingTemplate.convertAndSendToUser(message.getDestination(), "/queue/personal-message10", new PoCReplyMessage(message.getMessage()));
 		logger.info("Sending STOMP message to the broker. User: {}", message.getDestination());
 	}
 }

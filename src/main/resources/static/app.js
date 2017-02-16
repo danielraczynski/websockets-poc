@@ -49,7 +49,7 @@ function personalConnect() {
     stompClient.connect({}, function (frame) {
         setPersonalConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/user/queue/personal-message', function (greeting) {
+        stompClient.subscribe('/user/queue/twoajastara', function (greeting) {
             showPersonalGreeting(JSON.parse(greeting.body).content);
         });
     });
